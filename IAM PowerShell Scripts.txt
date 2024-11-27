@@ -1,0 +1,72 @@
+# IAM-Automation Repository
+# Useful PowerShell scripts for Identity and Access Management
+
+# User Account Management
+function New-EnterpriseUser {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$Username,
+        [Parameter(Mandatory=$true)]
+        [string]$Department,
+        [Parameter(Mandatory=$true)]
+        [string]$Role
+    )
+
+    # Simulate user creation with role-based access
+    $userDetails = @{
+        Username = $Username
+        Department = $Department
+        Role = $Role
+        CreatedDate = Get-Date
+        Status = "Active"
+    }
+
+    # In a real scenario, this would interact with Active Directory
+    Write-Output "Created user: $($userDetails | ConvertTo-Json)"
+
+    # Potential additional actions:
+    # - Set temporary password
+    # - Assign to specific security groups
+    # - Send welcome email
+}
+
+function Set-UserAccessLevel {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$Username,
+        [Parameter(Mandatory=$true)]
+        [ValidateSet("ReadOnly","Contributor","Administrator")]
+        [string]$AccessLevel
+    )
+
+    # Simulate setting access permissions
+    $accessConfig = @{
+        Username = $Username
+        AccessLevel = $AccessLevel
+        ModifiedDate = Get-Date
+    }
+
+    Write-Output "Updated access for $Username to $AccessLevel level"
+}
+
+function Invoke-AccessAudit {
+    # Simulate generating an access audit report
+    $auditReport = @{
+        AuditDate = Get-Date
+        TotalUsers = 100
+        UsersWithAdminAccess = 5
+        RecentAccessChanges = @(
+            @{Username = "jsmith"; ChangedOn = (Get-Date).AddDays(-7)},
+            @{Username = "mjohnson"; ChangedOn = (Get-Date).AddDays(-14)}
+        )
+    }
+
+    # Export audit report to CSV (simulated)
+    $auditReport | ConvertTo-Csv | Out-File "AccessAudit_$(Get-Date -Format 'yyyyMMdd').csv"
+    Write-Output "Access audit report generated"
+}
+
+# Example usage
+# New-EnterpriseUser -Username "johndoe" -Department "IT" -Role "SecurityAnalyst"
+# Set-UserAccessLevel -Username "johndoe" -AccessLevel "Contributor"
+# Invoke-AccessAudit
